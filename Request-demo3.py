@@ -13,18 +13,19 @@ def translatekeyworld(url,data,headers,keyword):
     print(str)
     with open(filename, 'a', encoding='utf-8') as fw:
         fw.write(keyword + ' translate to: ' + ','.join(str) + '\n')
-#翻译句子
+#翻译句子  目前已反爬
 def translatesentence(url,data,headers,keyword):
 
-    response = requests.post(url=posturl, data=data, headers=headers).json()
+    response = requests.post(url=url, data=data, headers=headers).json()
     #print(url)
-    print(response)
-
-    # print(data1)
-    str = ['']
+    if 'errno' in response:
+        print('返回错误！')
+        print(response)
+    else:
+        print(response['trans'][0]['dst'])
     filename = 'Translate.html'
     with open(filename, 'a', encoding='utf-8') as fw:
-        fw.write(keyword + ' translate to: ' + ','.join(str) + '\n')
+        fw.write(keyword + ' translate to: ' + ','.join(response['trans'][0]['dst']) + '\n')
 
 if __name__ == '__main__':
 
@@ -41,6 +42,6 @@ if __name__ == '__main__':
         elif keyword.isalnum():
             translatekeyworld(posturl, data, headers, keyword)
         else: #如果发送的是一个句子则
-            url='https://fanyi.baidu.com/transapi?from=en&to=zh'
-            data={'from': 'en','to': 'zh','query':keyword}
-            translatesentence(url, data, headers, keyword.encode('utf-8'))
+            url='https://fanyi.baidu.com/v2transapi?from=en&to=zh'
+            data={'query':keyword,'simple_means_flag':'3','domain':'common'}
+            translatesentence(url, data, headers,keyword)
