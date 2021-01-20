@@ -16,8 +16,8 @@ if __name__ == '__main__':
         url='https://www.dpm.org.cn/lights/royal/p/'+str(i)+'.html'
         try:
             response=req.get(url=url,headers=headers).text
-            rex=r'<img alt=.*?src="(.*?\.jpg)">'
-            imgurllist=re.findall(rex,response,re.S)   #将每页中包含的图片地址存起来。
+            rex=r'<img alt=.*?src="(.*?\.jpg)">'    #（）只返回（）里匹配的内容列表
+            imgurllist=re.findall(rex,response,re.S)   #将每页中包含的图片地址存起来。  re.S ：表示在同行匹配  re.M ：多行匹配
             for src in imgurllist:
                 imgdata=req.get(src).content     #下载每一涨图片
                 imgname='./gugong/'+str(src).split('/')[-1]
