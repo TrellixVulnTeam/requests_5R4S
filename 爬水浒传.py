@@ -13,7 +13,7 @@ def getshuihuzhuan():
     for text in title_list:
         title=text.a.string
         detail_url='https://www.shicimingju.com'+text.a['href']
-        detail_text=req.get(url=detail_url,headers=headers).text
+        detail_text=req.get(url=detail_url,headers=headers).content.decode('utf-8')
         detail_bs=bs4.BeautifulSoup(detail_text,'lxml')
         context=detail_bs.find('div',class_='chapter_content').text
         fw.write(title+'\n'+context+'\n')
