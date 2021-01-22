@@ -1,7 +1,7 @@
 import re
 import requests as req
 import os
-
+import 爬虫_bs4_proxy as proxyget
 
 if __name__ == '__main__':
 
@@ -14,12 +14,13 @@ if __name__ == '__main__':
     '''<img alt="元 赵雍挟弹游骑图轴（局部）" title="元 赵雍挟弹游骑图轴（局部）" src="https://img.dpm.org.cn/Uploads/Picture/2020/12/29/s5feaddb7e9954.jpg">'''
     for i in range(60,110):        #爬取110页
         url='https://www.dpm.org.cn/lights/royal/p/'+str(i)+'.html'
+        proxy=proxyget.get_proxy()
         try:
-            response=req.get(url=url,headers=headers).text
+            response=req.get(url=url,headers=headers,proxies=proxy).text
             rex=r'<img alt=.*?src="(.*?\.jpg)">'    #（）只返回（）里匹配的内容列表
             imgurllist=re.findall(rex,response,re.S)   #将每页中包含的图片地址存起来。  re.S ：表示在同行匹配  re.M ：多行匹配
             for src in imgurllist:
-                imgdata=req.get(src).content     #下载每一涨图片
+                imgdata=req.get('https://img.dpm.org.cn'+src).content     #下载每一涨图片https://www.dpm.org.cn/Uploads/Picture/2020/12/29/s5fead8a70a152.jpg
                 imgname='./gugong/'+str(src).split('/')[-1]
                 with open(imgname,'wb') as fw:
                     fw.write(imgdata)
