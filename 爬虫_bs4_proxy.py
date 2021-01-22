@@ -2,6 +2,8 @@ import bs4
 import lxml
 import requests  as req
 from random import *
+import prettytable as pt
+
 
 def get_proxy():
     url = 'https://ip.jiangxianli.com/?page=1'  # 提供代理IP的页面
@@ -73,6 +75,10 @@ def get_proxy():
     context = tempbody.find('div', class_="layui-form").findChild('tbody').find_all('tr')
     # print(context)
     tempdict = {}
+    tb = pt.PrettyTable()
+    tb.field_names = ['IP', '端口', '匿名度', '类型', '位置', '所属地区', '运营商', '响应速度', '存活时间', '最后验证时间']  # 设置表头
+    tb.align = 'l'
+
     for tempda in context:
         tdlist = tempda.find_all('td')
         '''IP', '端口', '匿名度', '类型', '位置', '所属地区', '运营商', '响应速度', '存活时间', '最后验证时间'''
@@ -89,8 +95,14 @@ def get_proxy():
         tempdict = {'ip': ip1, 'port': port1, 'nmd': nmd1, 'type': type1, 'local': local1, 'area': area1,
                     'provider': provider1, 'speed': speed1, 'activetime': activetime1, 'testtime': testtime1}
         listbody.append(tempdict)
+        #并添加出格式化列表中
+        tb.add_row([ip1,port1,nmd1,type1,local1,area1,provider1,speed1,activetime1,testtime1])
     # print(listbody)
-
+    # 格式化成表格
+    formatstring =tb.get_html_string()
+    fw = open('./proxy_list.html', 'w', encoding='utf-8')
+    #输出到文件
+    print(formatstring,file=fw)
     chocieproxy= choice(listbody)
     proxy = {str(chocieproxy['type']).lower(): 'http://' + chocieproxy['ip'] + ':' + chocieproxy['port']}
     return proxy
