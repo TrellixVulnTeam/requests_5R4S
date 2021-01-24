@@ -1,3 +1,4 @@
+'''只能识别简单的文字，不支持滑动与计算'''
 import time
 #from tensorflow.python._pywrap_tensorflow_internal import *
 '''麻瓜库安装  

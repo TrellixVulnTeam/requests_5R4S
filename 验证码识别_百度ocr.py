@@ -1,3 +1,4 @@
+'''只能识别简单的文字，不支持滑动与计算'''
 from aip import AipOcr
 '''pip3 install baidu-aip'''
 
