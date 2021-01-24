@@ -11,8 +11,13 @@ def get_codetext1(filePath):
     client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
     #client.basicGeneral(image); #普通识别
     """ 调用通用文字识别（高精度版） """  #个人已购买1年
-    text=client.basicAccurate(image)['words_result'][0]['words'];
-
+    text=''
+    try:
+        text1=client.basicAccurate(image);
+        print(text1)
+        text=text1['words_result'][0]['words']
+    except BaseException as BE:
+        print(BE)
     print('识别结果：',text)
     return text
 if __name__ == '__main__':
