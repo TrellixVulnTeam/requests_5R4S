@@ -6,15 +6,16 @@ import time,requests
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-####无界面模式
-from selenium.webdriver.chrome.options import Options
-chrome_options = Options()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
+# ####无界面模式
+# from selenium.webdriver.chrome.options import Options
+# chrome_options = Options()
+# chrome_options.add_argument('--headless')
+# chrome_options.add_argument('--disable-gpu')
 ########
 chrome_option = webdriver.ChromeOptions()
 chrome_option.add_experimental_option('excludeSwitches', ['enable-automation'])  # 允许开发者模式
-brow = webdriver.Chrome(executable_path='../chromedriver.exe', options=chrome_option,chrome_options=chrome_options)
+#brow = webdriver.Chrome(executable_path='../chromedriver.exe', options=chrome_option,chrome_options=chrome_options)
+brow = webdriver.Chrome(executable_path='../chromedriver.exe', options=chrome_option)
 brow.execute_script('Object.defineProperties(navigator,{ webdriver:{ get: () => false } }) ') #将WEBDRIVER 属性置为false
 
 APP_ID = '23581870'
@@ -80,6 +81,9 @@ def erzihua(filePath):
 
     image = image.point(table, '1')
     image.save(filePath)
+def getpiccontent(filePath):
+    with open(filePath, 'rb') as fp:
+        return fp.read()
 
 def get_codetext1(filePath):
     image = Image.open(filePath)
@@ -88,7 +92,7 @@ def get_codetext1(filePath):
     #去掉杂色
     delcoo(picturepath)
     #image.show()
-
+    image=getpiccontent(filePath)
     client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
     #client.basicGeneral(image); #普通识别
     """ 调用通用文字识别（高精度版） """  #个人已购买1年
