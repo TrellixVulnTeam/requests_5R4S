@@ -1,5 +1,5 @@
 from selenium import webdriver
-from aip import AipOcr #百度验证码识别
+from aip import AipOcr #百度验证码识别  弱鸡
 import pytesseract
 from PIL import Image,ImageEnhance,ImageFilter
 import time,requests

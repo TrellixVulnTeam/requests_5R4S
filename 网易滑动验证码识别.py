@@ -13,6 +13,7 @@ import time, requests
 chrome_option = webdriver.ChromeOptions()
 chrome_option.add_experimental_option('excludeSwitches', ['enable-automation'])  # 允许开发者模式
 brow = webdriver.Chrome(executable_path='../chromedriver.exe', options=chrome_option)
+url = 'http://dun.163.com/trial/jigsaw'
 # #模拟鼠标滚动一页
 # wb.execute_script('window.scrollTo(0,document.body.scrollHeight)') #滚动一屏，加一些无相关的操作，模拟人工
 # brow.execute_script(
@@ -21,10 +22,10 @@ class CrackSlider():
     """
     通过浏览器截图，识别验证码中缺口位置，获取需要滑动距离，并模仿人类行为破解滑动验证码
     """
-    def __init__(self):
-        self.url = 'http://dun.163.com/trial/jigsaw'
+    def __init__(self,url):
+        self.url = url
         self.driver = webdriver.Chrome(executable_path='../chromedriver.exe', options=chrome_option)
-        self.driver.execute_script('Object.defineProperties(navigator,{ webdriver:{ get: () => false } }) ')
+        self.driver.execute_script('Object.defineProperties(navigator,{ webdriver:{ get: () => false } }) ') #将WEBDRIVER 属性置为false
         self.wait = WebDriverWait(self.driver, 20)
         self.zoom = 1
 
@@ -116,9 +117,9 @@ class CrackSlider():
 
 
 if __name__ == '__main__':
-    cs = CrackSlider()
+    cs = CrackSlider(url)
     cs.open()
-    target = 'target.jpg'
+    target = 'target.jpg'  #保存后的图
     template = 'template.png'
     cs.get_pic()
     distance = cs.match(target, template)

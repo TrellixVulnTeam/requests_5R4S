@@ -26,6 +26,7 @@ if __name__ == '__main__':
     #开始执行动作链
     for i in range(20):
         action.move_by_offset(xoffset=random_int(),yoffset=0).perform()   #水平移动y 为0
+        time.sleep(random.randint(1,5)/5)
     brow.close()
 
     time.sleep(3)
