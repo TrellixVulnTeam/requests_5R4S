@@ -6,10 +6,15 @@ import time,requests
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-
+####无界面模式
+from selenium.webdriver.chrome.options import Options
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--disable-gpu')
+########
 chrome_option = webdriver.ChromeOptions()
 chrome_option.add_experimental_option('excludeSwitches', ['enable-automation'])  # 允许开发者模式
-brow = webdriver.Chrome(executable_path='../chromedriver.exe', options=chrome_option)
+brow = webdriver.Chrome(executable_path='../chromedriver.exe', options=chrome_option,chrome_options=chrome_options)
 brow.execute_script('Object.defineProperties(navigator,{ webdriver:{ get: () => false } }) ') #将WEBDRIVER 属性置为false
 
 APP_ID = '23581870'
